@@ -5,12 +5,29 @@ class RecipesController < ApplicationController
 
   def index
     @recipes = Recipe.all
+    
   end
 
   def new
     @recipe = Recipe.new
+    @recipe.ingredients.build(name: nil)
+    @recipe.ingredients.build(name: nil)
   end
 
   def create
+    # byebug
+    @recipe = Recipe.create(recipe_params)
+    redirect_to recipe_path(@recipe)
+  end
+
+  private 
+  def recipe_params 
+    # byebug
+    params.require(:recipe).permit(:title,
+      ingredients_attributes: [
+        :name, 
+        :quantity 
+
+      ])
   end
 end
